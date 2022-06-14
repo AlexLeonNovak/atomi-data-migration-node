@@ -48,7 +48,7 @@
         "inputs": [
             {
                 "name": "01- All Potentials",
-                "messageIds": [38, 37, 46, 47, 53],
+                "messageIds": [38, 37, 39, 40, 41, 53],
                 "pageIds": [3, 43, 44, 54, 55, 59]
             },
             {

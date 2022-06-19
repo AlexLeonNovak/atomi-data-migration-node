@@ -59,12 +59,12 @@
             {
                 "name": "03- 24 hours after immediately",
                 "messageIds": [4, 23],
-                "pageIds": [48, 8, 15]
+                "pageIds": [48, 8]
             },
             {
                 "name": "04- 48 hours after immediately",
                 "messageIds": [17, 24],
-                "pageIds": [49, 9, 14]
+                "pageIds": [49, 9]
             },
             {
                 "name": "05- 72 hours after immediately",

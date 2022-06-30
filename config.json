@@ -84,17 +84,17 @@
             {
                 "name": "08- 72 hours to insurance day",
                 "messageIds": [16, 19],
-                "pageIds": [13]
+                "pageIds": [13, 56]
             },
             {
                 "name": "09- 48 hours to insurance day",
                 "messageIds": [20, 15],
-                "pageIds": [14]
+                "pageIds": [14, 57]
             },
             {
                 "name": "10- 24 hours to insurance day",
                 "messageIds": [21, 14],
-                "pageIds": [15]
+                "pageIds": [15, 58]
             }
         ]
     }

@@ -8,6 +8,9 @@
     "removal": {
         "segmentIds": [113]
     },
+    "fieldChanges": {
+        "fieldAliases": ["mainstatus"]
+    },
     "emails": {
         "inputs": [
             {
@@ -41,6 +44,50 @@
             {
                 "name": "10- 24 hours to insurance day",
                 "emailIds": [57, 89]
+            }
+        ]
+    },
+    "unsubscribeEmails": {
+        "inputs": [
+            {
+                "name": "01- All Potentials",
+                "emailIds": [51, 85, 90, 91, 92],
+                "pageIds": [975]
+            },
+            {
+                "name": "03- 24 hours after immediately",
+                "emailIds": [93, 94],
+                "pageIds": [975]
+            },
+            {
+                "name": "04- 48 hours after immediately",
+                "emailIds": [0],
+                "pageIds": [975]
+            },
+            {
+                "name": "06- 14 days before insurance start",
+                "emailIds": [53],
+                "pageIds": [975]
+            },
+            {
+                "name": "07- 7 days before insurance starts",
+                "emailIds": [54],
+                "pageIds": [975]
+            },
+            {
+                "name": "08- 72 hours to insurance day",
+                "emailIds": [55, 87],
+                "pageIds": [975]
+            },
+            {
+                "name": "09- 48 hours to insurance day",
+                "emailIds": [56, 88],
+                "pageIds": [975]
+            },
+            {
+                "name": "10- 24 hours to insurance day",
+                "emailIds": [57, 89],
+                "pageIds": [975]
             }
         ]
     },
@@ -95,6 +142,60 @@
                 "name": "10- 24 hours to insurance day",
                 "messageIds": [21, 14],
                 "pageIds": [15, 58]
+            }
+        ]
+    },
+    "unsubscribeMessages": {
+        "inputs": [
+            {
+                "name": "01- All Potentials",
+                "messageIds": [38, 37, 39, 40, 41, 53],
+                "pageIds": [2, 32, 39, 40, 41, 64]
+            },
+            {
+                "name": "02- Day Insurance Start",
+                "messageIds": [52],
+                "pageIds": [42]
+            },
+            {
+                "name": "03- 24 hours after immediately",
+                "messageIds": [4, 23],
+                "pageIds": [23, 33]
+            },
+            {
+                "name": "04- 48 hours after immediately",
+                "messageIds": [17, 24],
+                "pageIds": [24, 34]
+            },
+            {
+                "name": "05- 72 hours after immediately",
+                "messageIds": [18, 25],
+                "pageIds": [35, 25]
+            },
+            {
+                "name": "06- 14 days before insurance start",
+                "messageIds": [6],
+                "pageIds": [26]
+            },
+            {
+                "name": "07- 7 days before insurance starts",
+                "messageIds": [7],
+                "pageIds": [27]
+            },
+            {
+                "name": "08- 72 hours to insurance day",
+                "messageIds": [16, 19],
+                "pageIds": [36, 29]
+            },
+            {
+                "name": "09- 48 hours to insurance day",
+                "messageIds": [20, 15],
+                "pageIds": [37, 30]
+            },
+            {
+                "name": "10- 24 hours to insurance day",
+                "messageIds": [21, 14],
+                "pageIds": [38, 31]
             }
         ]
     }

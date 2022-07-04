@@ -66,6 +66,23 @@ WHERE DATE(ph.date_hit) = @reportDate
   return inputs.map(input => sql(input)).join("\nUNION ALL\n");
 }
 
+const unsubscribeEmails = ({ inputs }) => {
+  const sql = ({name, emailIds, pageIds}) => `
+SELECT @reportDate reportDate,
+       '${name}' periodOfTime,
+       ph.email_id,
+       ph.lead_id,
+       MAX(ph.date_hit) pageDateHit
+FROM page_hits ph
+WHERE ph.email_id IN (${emailIds.join(',')})
+  AND  DATE(ph.date_hit) = @reportDate
+  AND ph.redirect_id IN (${pageIds.join(',')})
+GROUP BY ph.lead_id, ph.email_id
+`;
+
+  return inputs.map(input => sql(input)).join("\nUNION ALL\n");
+}
+
 const messages = ({inputs}) => {
   const sql = ({name, messageIds, pageIds}) => `
   SELECT
@@ -116,6 +133,27 @@ WHERE (DATE(vms.date_sent) = @reportDate OR DATE(ph.date_hit) = @reportDate)
   return inputs.map(input => sql(input)).join("\nUNION ALL\n");
 }
 
+const unsubscribeMessages = ({ inputs }) => {
+  const sql = ({name, messageIds, pageIds}) => `
+  SELECT
+    @reportDate reportDate,
+    '${name}' periodOfTime,
+    ph.lead_id leadId,
+    vms.message_id messageId,
+    vm.name messageTitle,
+    MAX(ph.date_hit) pageHitDate,
+    ph.page_id pageId
+FROM page_hits ph
+    LEFT JOIN vonage_message_stats vms on ph.lead_id = vms.lead_id
+    LEFT JOIN vonage_messages vm ON vm.id = vms.message_id
+WHERE ph.page_id IN (${pageIds.join(',')})
+  AND vms.message_id IN (${messageIds.join(',')})
+  AND (DATE(ph.date_hit) = @reportDate)
+GROUP BY leadId, messageId, vm.name, ph.page_id`;
+
+  return inputs.map(input => sql(input)).join("\nUNION ALL\n");
+}
+
 const removal = ({segmentIds}) => `
 SELECT @reportDate reportDate,
        lead_id,
@@ -127,11 +165,31 @@ WHERE DATE(date_added)=@reportDate
   AND object_id IN (${segmentIds.join(',')})
 `
 
+
+
+const fieldChanges = ({ fieldAliases }) => {
+  const details = fieldAliases.map(field => `details LIKE '%${field}%'`).join(' OR ',)
+  return `
+SELECT @reportDate reportDate,
+       details,
+       object_id leadId,
+       date_added dateAdded
+FROM audit_log
+WHERE bundle='lead'
+  AND object='lead'
+  AND action='update'
+  AND DATE(date_added)=@reportDate
+  AND (${details})`;
+}
+
 module.exports = {
   setReportDate,
   totalPotentials,
   purchasesAndRejections,
   messages,
+  unsubscribeMessages,
   emails,
-  removal
+  unsubscribeEmails,
+  removal,
+  fieldChanges
 };

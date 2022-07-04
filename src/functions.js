@@ -2,8 +2,9 @@ const { createObjectCsvWriter } = require("csv-writer");
 const moment = require('moment');
 const { connection } = require('./connection');
 const { saveDataset, deleteRows } = require('./bigQuery');
-const reportConfig = require('../config.json');
+const reportConfig = require(`../config${ process.env.NODE_ENV === 'development' ? '.dev' : '' }.json`);
 const queries = require('./queries');
+const afterQuery = require('./afterQuery');
 
 const createCSV = async ({path, fields, rows}) => {
   const header = fields.map(field => ({
@@ -14,7 +15,6 @@ const createCSV = async ({path, fields, rows}) => {
 
 
 const main = async ({reportDate = null} = {}) => {
-  console.log('DIR: ', __dirname);
   try {
     const date = reportDate || moment().subtract(1, 'days').format('YYYY-MM-DD');
     console.log('report date: ', date);
@@ -23,7 +23,12 @@ const main = async ({reportDate = null} = {}) => {
     for (const key in reportConfig) {
       if (key in queries && typeof queries[key] === "function") {
         console.log('Report: ', key);
-        const [rows, fields] = await connection.query(queries[key](reportConfig[key]));
+        const sql = queries[key](reportConfig[key]);
+        let [rows, fields] = await connection.query(sql);
+        const aqFn = `${key}AfterQuery`;
+        if (aqFn in afterQuery && typeof afterQuery[aqFn] === "function") {
+          [rows, fields] = afterQuery[aqFn](rows, fields, reportConfig[key]);
+        }
         const path = (process.env.NODE_ENV === 'development' ? '.' : '') + `/tmp/${key}.csv`;
         await createCSV({ path, fields, rows });
         await deleteRows(key, { reportDate: date })

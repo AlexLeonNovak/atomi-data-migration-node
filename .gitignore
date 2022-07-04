@@ -6,3 +6,4 @@ sql_queries
 .idea
 tmp/*
 index-dev.js
+config.dev.json

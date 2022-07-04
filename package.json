@@ -14,7 +14,8 @@
     "csv-writer": "^1.6.0",
     "dotenv": "^16.0.0",
     "moment": "^2.29.3",
-    "mysql2": "^2.3.3"
+    "mysql2": "^2.3.3",
+    "phpunserialize": "^1.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",

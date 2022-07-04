@@ -29,10 +29,12 @@ const main = async ({reportDate = null} = {}) => {
         if (aqFn in afterQuery && typeof afterQuery[aqFn] === "function") {
           [rows, fields] = afterQuery[aqFn](rows, fields, reportConfig[key]);
         }
+        console.log('Queried rows: ', rows.length);
         const path = (process.env.NODE_ENV === 'development' ? '.' : '') + `/tmp/${key}.csv`;
         await createCSV({ path, fields, rows });
         await deleteRows(key, { reportDate: date })
-        await saveDataset(path, key);
+        const [, job] = await saveDataset(path, key);
+        console.log('BQ status: ', job.status);
         console.log('Done');
       }
     }

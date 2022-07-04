@@ -1,4 +1,5 @@
 const { BigQuery } = require("@google-cloud/bigquery");
+const { JobLoadMetadata } = require("@google-cloud/bigquery/build/src/table");
 
 const { BIGQUERY_PROJECTID, BIGQUERY_KEYFILE, BIGQUERY_DATASET, NODE_ENV} = process.env;
 
@@ -15,7 +16,7 @@ const createBigQueryConnection = () => {
 
 const bigqueryConnection = createBigQueryConnection();
 
-const saveDataset = async (path, tableName) => {
+const saveDataset = async (path, tableName, cb) => {
   const bigQueryMetaData = {
     // writeDisposition: "WRITE_TRUNCATE",
     autodetect: true,
@@ -27,13 +28,10 @@ const saveDataset = async (path, tableName) => {
     ignoreUnknownValues: true,
   };
   try {
-    await bigqueryConnection
+    return await bigqueryConnection
       .dataset(BIGQUERY_DATASET)
       .table(tableName)
-      .createLoadJob(path, bigQueryMetaData)
-      .catch(err => {
-        console.error('BigQuery:', err);
-      });
+      .createLoadJob(path, bigQueryMetaData, cb);
   } catch(e) {
     console.error('BigQuery', e);
   }

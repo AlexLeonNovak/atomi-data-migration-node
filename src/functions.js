@@ -2,7 +2,7 @@ const { createObjectCsvWriter } = require("csv-writer");
 const moment = require('moment');
 const { connection } = require('./connection');
 const { saveDataset, deleteRows } = require('./bigQuery');
-const reportConfig = require(`../config${ process.env.NODE_ENV === 'development' ? '.dev' : '' }.json`);
+const reportConfig = require(`../config.json`);
 const queries = require('./queries');
 const afterQuery = require('./afterQuery');
 

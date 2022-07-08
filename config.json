@@ -51,43 +51,35 @@
         "inputs": [
             {
                 "name": "01- All Potentials",
-                "emailIds": [51, 85, 90, 91, 92],
-                "pageIds": [975]
+                "emailIds": [51, 85, 90, 91, 92]
             },
             {
                 "name": "03- 24 hours after immediately",
-                "emailIds": [93, 94],
-                "pageIds": [975]
+                "emailIds": [93, 94]
             },
             {
                 "name": "04- 48 hours after immediately",
-                "emailIds": [0],
-                "pageIds": [975]
+                "emailIds": [0]
             },
             {
                 "name": "06- 14 days before insurance start",
-                "emailIds": [53],
-                "pageIds": [975]
+                "emailIds": [53]
             },
             {
                 "name": "07- 7 days before insurance starts",
-                "emailIds": [54],
-                "pageIds": [975]
+                "emailIds": [54]
             },
             {
                 "name": "08- 72 hours to insurance day",
-                "emailIds": [55, 87],
-                "pageIds": [975]
+                "emailIds": [55, 87]
             },
             {
                 "name": "09- 48 hours to insurance day",
-                "emailIds": [56, 88],
-                "pageIds": [975]
+                "emailIds": [56, 88]
             },
             {
                 "name": "10- 24 hours to insurance day",
-                "emailIds": [57, 89],
-                "pageIds": [975]
+                "emailIds": [57, 89]
             }
         ]
     },
@@ -196,6 +188,38 @@
                 "name": "10- 24 hours to insurance day",
                 "messageIds": [21, 14],
                 "pageIds": [38, 31]
+            }
+        ]
+    },
+    "leadSegments": {
+        "inputs": [
+            {
+                "name": "New",
+                "segmentIds": [3]
+            },
+            {
+                "name": "Conversion",
+                "segmentIds": [67]
+            },
+            {
+                "name": "New lead rejected",
+                "segmentIds": [52]
+            },
+            {
+                "name": "New lead in process",
+                "segmentIds": [48]
+            },
+            {
+                "name": "New lead for production",
+                "segmentIds": [49]
+            },
+            {
+                "name": "New lead production problem",
+                "segmentIds": [50]
+            },
+            {
+                "name": "New lead urgent production",
+                "segmentIds": [51]
             }
         ]
     }

@@ -63,24 +63,25 @@ WHERE DATE(ph.date_hit) = @reportDate
   AND ph.email_id IN (${emailIds.join(',')})
   `;
 
-  return inputs.map(input => sql(input)).join("\nUNION ALL\n");
+  return inputs.map(sql).join("\nUNION ALL\n");
 }
 
 const unsubscribeEmails = ({ inputs }) => {
-  const sql = ({name, emailIds, pageIds}) => `
-SELECT @reportDate reportDate,
-       '${name}' periodOfTime,
-       ph.email_id,
-       ph.lead_id,
-       MAX(ph.date_hit) pageDateHit
-FROM page_hits ph
-WHERE ph.email_id IN (${emailIds.join(',')})
-  AND  DATE(ph.date_hit) = @reportDate
-  AND ph.redirect_id IN (${pageIds.join(',')})
-GROUP BY ph.lead_id, ph.email_id
+  const sql = ({name, emailIds}) => `
+      SELECT @reportDate reportDate,
+             '${name}' periodOfTime,
+             ph.email_id,
+             ph.lead_id,
+             MAX(ph.date_hit),
+             ph.url,
+             ph.redirect_id
+      FROM page_hits ph
+      WHERE ph.email_id IN (${emailIds.join(',')})
+        AND DATE(ph.date_hit) = @reportDate
+      GROUP BY ph.lead_id, ph.email_id, ph.url, ph.redirect_id
 `;
 
-  return inputs.map(input => sql(input)).join("\nUNION ALL\n");
+  return inputs.map(sql).join("\nUNION ALL\n");
 }
 
 const messages = ({inputs}) => {
@@ -130,7 +131,7 @@ WHERE (DATE(vms.date_sent) = @reportDate OR DATE(ph.date_hit) = @reportDate)
   AND vm.id IN (${messageIds.join(',')})
   `;
 
-  return inputs.map(input => sql(input)).join("\nUNION ALL\n");
+  return inputs.map(sql).join("\nUNION ALL\n");
 }
 
 const unsubscribeMessages = ({ inputs }) => {
@@ -151,7 +152,7 @@ WHERE ph.page_id IN (${pageIds.join(',')})
   AND (DATE(ph.date_hit) = @reportDate)
 GROUP BY leadId, messageId, vm.name, ph.page_id`;
 
-  return inputs.map(input => sql(input)).join("\nUNION ALL\n");
+  return inputs.map(sql).join("\nUNION ALL\n");
 }
 
 const removal = ({segmentIds}) => `
@@ -182,6 +183,21 @@ WHERE bundle='lead'
   AND (${details})`;
 }
 
+const leadSegments = ({ inputs }) => {
+  const sql = ({ name, segmentIds }) => `
+  SELECT @reportDate reportDate,
+       '${name}' name,
+         SUM(action='added') added,
+         SUM(action='removed') removed,
+         SUM(action='added') - SUM(action='removed') diff
+FROM lead_event_log
+WHERE DATE(date_added)=@reportDate
+  AND object='segment'
+  AND object_id IN (${segmentIds.join(',')})
+  `
+  return inputs.map(sql).join("\nUNION ALL\n");
+}
+
 module.exports = {
   setReportDate,
   totalPotentials,
@@ -191,5 +207,6 @@ module.exports = {
   emails,
   unsubscribeEmails,
   removal,
-  fieldChanges
+  fieldChanges,
+  leadSegments
 };

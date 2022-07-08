@@ -70,11 +70,11 @@ const unsubscribeEmails = ({ inputs }) => {
   const sql = ({name, emailIds}) => `
       SELECT @reportDate reportDate,
              '${name}' periodOfTime,
-             ph.email_id,
-             ph.lead_id,
-             MAX(ph.date_hit),
+             ph.email_id emailId,
+             ph.lead_id leadId,
+             MAX(ph.date_hit) pageHitDate,
              ph.url,
-             ph.redirect_id
+             ph.redirect_id redirectId
       FROM page_hits ph
       WHERE ph.email_id IN (${emailIds.join(',')})
         AND DATE(ph.date_hit) = @reportDate

@@ -97,17 +97,17 @@
             },
             {
                 "name": "03- 24 hours after immediately",
-                "messageIds": [4, 23],
+                "messageIds": [54, 55],
                 "pageIds": [48, 8]
             },
             {
                 "name": "04- 48 hours after immediately",
-                "messageIds": [17, 24],
+                "messageIds": [56, 57],
                 "pageIds": [49, 9]
             },
             {
                 "name": "05- 72 hours after immediately",
-                "messageIds": [18, 25],
+                "messageIds": [58, 59],
                 "pageIds": [50, 10]
             },
             {
